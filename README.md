@@ -6,14 +6,22 @@ Infrastructure as Code & Kubernetes Multi-Cloud Portfolio.
 
 ```text
 .
-└── ansible/
+├── ansible/
+│   ├── inventory/
+│   │   └── hosts.yml
+│   ├── playbooks/
+│   │   ├── sysreq.yml
+│   │   └── tailscale.yml
+│   └── site.yml
+├── .gitignore
+└── requirements.txt
 ```
 
 ## Quickstart
 
 ### 1. Environment Setup
 
-Activate the Python virtual environment and install Python dependencies:
+Activate the Python virtual environment and install dependencies:
 
 ```bash
 python3 -m venv .venv
@@ -22,10 +30,11 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 2. System Requirements
+### 2. Infrastructure Provisioning
 
-Run the bootstrap playbook to prepare nodes:
+Run the master playbook to configure system requirements and Tailscale mesh:
 
 ```bash
-ansible-playbook -i ansible/inventory ansible/playbooks/k3s-sysreq.yml
+export TAILSCALE_AUTHKEY="tskey-auth-xxxxxx"
+ansible-playbook -i ansible/inventory ansible/site.yml
 ```

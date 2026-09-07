@@ -1,0 +1,6 @@
+---
+- name: System Requirements
+  import_playbook: playbooks/sysreq.yml
+
+- name: Tailscale Mesh Setup
+  import_playbook: playbooks/tailscale.yml

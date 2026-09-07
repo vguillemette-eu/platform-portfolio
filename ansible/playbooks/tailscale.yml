@@ -1,0 +1,56 @@
+---
+- name: Deploy and authenticate Tailscale on K3s cluster
+  hosts: k3s_cluster
+  become: true
+
+  vars:
+    tailscale_authkey: "{{ lookup('env', 'TAILSCALE_AUTHKEY') }}"
+    tailscale_tags: "tag:server"
+
+  tasks:
+    - name: Download Tailscale installation script
+      get_url:
+        url: https://tailscale.com/install.sh
+        dest: /tmp/tailscale_install.sh
+        mode: '0755'
+
+    - name: Execute Tailscale installation script
+      command: /tmp/tailscale_install.sh
+      args:
+        creates: /usr/bin/tailscale
+
+    - name: Get current Tailscale backend status
+      command: tailscale status --json
+      register: tailscale_json_status
+      changed_when: false
+      failed_when: false
+
+    - name: Parse Tailscale status JSON
+      set_fact:
+        tailscale_backend_state: "{{ (tailscale_json_status.stdout | from_json).BackendState | default('NoState') }}"
+
+    - name: Authenticate to Tailnet
+      command: >
+        tailscale up
+        --authkey={{ tailscale_authkey }}
+      #   --tags={{ tailscale_tags }}
+      when: tailscale_backend_state != "Running"
+      # no_log: true
+
+    - name: Verify Tailscale status
+      command: tailscale status
+      register: tailscale_status
+      changed_when: false
+
+    - name: Display Tailscale status
+      debug:
+        msg: "{{ tailscale_status.stdout_lines }}"
+
+    - name: Ping Proxmox Host via Tailscale IP
+      command: ping -c 3 adm-pve-01.taila84b44.ts.net
+      register: ping_res
+      changed_when: false
+
+    - name: Display Latency to Proxmox
+      debug:
+        msg: "{{ ping_res.stdout_lines[-1] }}"
