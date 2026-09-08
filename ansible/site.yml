@@ -4,3 +4,6 @@
 
 - name: Tailscale Mesh Setup
   import_playbook: playbooks/tailscale.yml
+
+- name: K3s Cluster Bootstrap
+  import_playbook: k3s.orchestration.site
