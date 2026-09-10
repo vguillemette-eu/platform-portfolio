@@ -2,8 +2,15 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
-  modules: ['@nuxtjs/tailwindcss'],
   typescript: {
     strict: true,
-  }
+  },
+  modules: ['@nuxt/ui'],
+  css: ['~/assets/css/main.css'],
+  runtimeConfig: {
+    public: {
+      appVersion: '',
+      buildDate: '',
+    },
+  },
 })
