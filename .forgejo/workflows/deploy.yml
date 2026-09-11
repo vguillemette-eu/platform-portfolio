@@ -8,9 +8,7 @@ on:
 jobs:
   build:
     name: Build and Push Docker Image
-    runs-on: ubuntu-latest
-    container:
-      image: docker:cli
+    runs-on: docker
     env:
       DOCKER_HOST: tcp://localhost:2375
 
