@@ -27,7 +27,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v6
         with:
-          images: ${{ forgejo.server_url }}/${{ forgejo.repository }}
+          images: ${{ replace(replace(forgejo.server_url, 'https://', ''), 'http://', '') }}/${{ forgejo.repository }}
           tags: |
             type=sha,prefix=,format=short
             type=raw,value=latest
