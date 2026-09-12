@@ -9,6 +9,9 @@ jobs:
   build:
     name: Build and Push Docker Image
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     env:
       DOCKER_HOST: tcp://forgejo-runner.forgejo.svc.cluster.local:2375
       REGISTRY_HOST: forgejo.taila84b44.ts.net
