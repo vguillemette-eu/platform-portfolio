@@ -36,7 +36,7 @@ jobs:
       - name: Build and push OCI image
         uses: docker/build-push-action@v7
         with:
-          context: .
+          context: ./apps/web
           file: ./Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
