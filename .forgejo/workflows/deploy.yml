@@ -22,7 +22,7 @@ jobs:
         with:
           registry: ${{ forgejo.server_url }}
           username: ${{ forgejo.actor }}
-          password: ${{ forgejo.token }}
+          password: ${{ secrets.REGISTRY_TOKEN }}
 
       - name: Extract metadata (tags, labels)
         id: meta
