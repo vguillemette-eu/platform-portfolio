@@ -18,7 +18,7 @@ jobs:
 
       - name: Inspect Runner Context
         run: |
-          echo "gitea.server_url = ${{ gitea.server_url }}"
+          echo "forgejo.server_url = ${{ forgejo.server_url }}"
           echo "CI_SERVER_URL = $CI_SERVER_URL"
           env | grep -i FORGEJO || true
 
