@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DOCKER_HOST: tcp://forgejo-runner.forgejo.svc.cluster.local:2375
+      REGISTRY_HOST: forgejo.taila84b44.ts.net
 
     steps:
       - name: Checkout repository
@@ -27,7 +28,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v6
         with:
-          images: ${{ replace(replace(forgejo.server_url, 'https://', ''), 'http://', '') }}/${{ forgejo.repository }}
+          images: ${{ env.REGISTRY_HOST }}/${{ forgejo.repository }}
           tags: |
             type=sha,prefix=,format=short
             type=raw,value=latest
